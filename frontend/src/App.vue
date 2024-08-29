@@ -28,6 +28,7 @@ export default {
       })
       .then(response => {
         console.log('提交成功', response)
+        alert('代码相似度为：' + response.data)
         this.inputValue = ''
         this.inputValue2 = ''
       })
