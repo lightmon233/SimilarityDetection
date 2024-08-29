@@ -1,28 +1,38 @@
 <template>
-  <div>
-    通过后端取得：{{ msg }}
+  <div>原内容
+    <textarea v-model="inputValue" placeholder="请输入内容"></textarea>
+    <button @click="submitText">提交</button>
   </div>
-  <router-view></router-view>
+  <div>对比内容
+    <textarea v-model="inputValue2" placeholder="请输入内容"></textarea>
+    <button @click="submitText2">提交</button>
+  </div>
 </template>
 
 <script>
 
-import $ from 'jquery';
-import { ref } from 'vue';
+import axios from 'axios';
 
 export default {
-  name: "App",
-  setup: () => {
-    let msg = ref("");
-    $.ajax({
-      url: "http://localhost:3000/",
-      type: "get", 
-      success: resp => {
-        msg.value = resp;
-      }
-    })
+  data() {
     return {
-      msg
+      inputValue: '',
+      inputValue2: ''
+    }
+  },
+  methods: {
+    submitText() {
+      // 将inputValue发送给后端
+      axios.post('http://localhost:3000/submitText', {
+        text: this.inputValue
+      })
+      .then(response => {
+        console.log('提交成功', response)
+        this.inputValue = ''
+      })
+      .catch(error => {
+        console.error('提交失败', error)
+      })
     }
   }
 }
