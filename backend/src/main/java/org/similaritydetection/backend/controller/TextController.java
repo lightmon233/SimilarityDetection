@@ -12,8 +12,10 @@ public class TextController {
     @PostMapping("/submitText")
     public ResponseEntity<String> submitText(@RequestBody Map<String, String> payload) {
         // 处理接收到的数据
-        String content = payload.get("content");
-        System.out.println("接收到的数据：" + content);
+        String text = payload.get("text");
+        String text2 = payload.get("text2");
+        System.out.println(text);
+        System.out.println(text2);
         return ResponseEntity.ok("提交成功");
     }
 }
