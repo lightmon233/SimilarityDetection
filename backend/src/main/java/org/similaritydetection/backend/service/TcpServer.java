@@ -11,6 +11,8 @@ import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import static org.similaritydetection.backend.utils.CalculateSimilarity.calculateSimilarity;
+
 @Component
 public class TcpServer {
 
@@ -44,7 +46,7 @@ public class TcpServer {
             System.out.println("接收到的数据：" + receivedData.toString());
 
             // 响应客户端
-            String response = "数据接收成功！\n";
+            String response = calculateSimilarity(receivedData.);
             out.write(response.getBytes());
 
         } catch (Exception e) {

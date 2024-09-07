@@ -4,7 +4,9 @@ import socket
 import json
 
 host = '127.0.0.1'
-port = 3001
+tcp_port = 3001
+udp_port = 3002
+
 
 def send_data_tcp(host, port, data):
     try:
@@ -24,6 +26,7 @@ def send_data_tcp(host, port, data):
     print("服务器响应：", response)
     client_socket.close()
     return response
+
 
 def send_data_udp(host, port, data):
     try:
@@ -48,10 +51,37 @@ def send_data_udp(host, port, data):
     finally:
         client_socket.close()
 
-data = {
-    "params": {
-        "hello": "world"
-    }
-}
 
-response = send_data_tcp(host, port, data)
+def op(str1, str2, protocol):
+    if protocol == 'tcp':
+        send_data_tcp(host, tcp_port, (str1, str2))
+    elif protocol == 'udp':
+        send_data_udp(host, udp_port, (str1, str2))
+    else:
+        print("不支持的协议")
+
+
+def file_to_string(file_path):
+    try:
+        with open(file_path, 'r', encoding='utf-8') as f:
+            content = f.read()
+        return content
+    except FileNotFoundError:
+        print(f"文件{file_path}不存在")
+    except Exception as e:
+        print(f"读取文件{file_path}失败: {e}")
+
+
+def main():
+    parser = argparse.ArgumentParser(description="代码相似度检测工具")
+    parser.add_argument("file_path_1", type=str, help="第一个文件路径")
+    parser.add_argument("file_path_2", type=str, help="第二个文件路径")
+    parser.add_argument("--protocol", type=str, help="通信协议")
+    args = parser.parse_args()
+    file_1 = file_to_string(args.file_path_1)
+    file_2 = file_to_string(args.file_path_2)
+    op(file_1, file_2, args.protocol)
+
+
+if __name__ == "__main__":
+    main()
