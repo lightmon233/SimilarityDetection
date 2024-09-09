@@ -6,6 +6,7 @@ import json
 host = '127.0.0.1'
 tcp_port = 3001
 udp_port = 3002
+http_port = 3000
 
 
 def send_data_tcp(host, port, data):
@@ -52,11 +53,27 @@ def send_data_udp(host, port, data):
         client_socket.close()
 
 
+def send_data_http(host, port, data):
+    url = f"http://{host}:{port}/submitText"
+    headers = {'Content-Type': 'application/json'}
+    try:
+        response = requests.post(url, json=data, headers=headers)
+        if response.status_code == 200:
+            print("http服务器响应：" + response.text)
+            return response.text
+        else:
+            print(f"http请求失败: {response.status_code} - {response.text}")
+    except Exception as e:
+        print(f"http请求失败: {e}")
+
+
 def op(str1, str2, protocol):
     if protocol == 'tcp':
         send_data_tcp(host, tcp_port, (str1, str2))
     elif protocol == 'udp':
         send_data_udp(host, udp_port, (str1, str2))
+    elif protocol == 'http':
+        send_data_http(host, http_port, {'text': str1, 'text2': str2})
     else:
         print("不支持的协议")
 
