@@ -9,6 +9,9 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+import static org.similaritydetection.backend.utils.JsonParser.jsonToList;
+import static org.similaritydetection.backend.utils.CalculateSimilarity.calculateSimilarity;
+
 @Component
 public class UdpServer{
 
@@ -33,7 +36,9 @@ public class UdpServer{
                 // 这里可以用一个json库来解析数据
 
                 // 响应客户端
-                String responseData = "数据获取成功！";
+                String file1 = jsonToList(receivedData).get(0);
+                String file2 = jsonToList(receivedData).get(1);
+                String responseData = String.valueOf(calculateSimilarity(file1, file2));
                 byte[] responseBuffer = responseData.getBytes();
                 InetAddress clientAddress = receivePacket.getAddress();
                 int clientPort = receivePacket.getPort();

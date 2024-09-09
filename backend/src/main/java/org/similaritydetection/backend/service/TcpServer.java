@@ -12,6 +12,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import static org.similaritydetection.backend.utils.CalculateSimilarity.calculateSimilarity;
+import static org.similaritydetection.backend.utils.JsonParser.jsonToList;
 
 @Component
 public class TcpServer {
@@ -46,8 +47,10 @@ public class TcpServer {
             System.out.println("接收到的数据：" + receivedData.toString());
 
             // 响应客户端
-            String response = calculateSimilarity(receivedData.);
-            out.write(response.getBytes());
+            String file1 = jsonToList(receivedData.toString()).get(0);
+            String file2 = jsonToList(receivedData.toString()).get(1);
+            Double response = calculateSimilarity(file1, file2);
+            out.write(response.toString().getBytes());
 
         } catch (Exception e) {
             e.printStackTrace();
