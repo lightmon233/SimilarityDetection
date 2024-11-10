@@ -1,1 +1,1 @@
-README
+frontend Vue, backend Springboot.
