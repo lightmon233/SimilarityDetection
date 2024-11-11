@@ -69,16 +69,82 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+/* 容器整体样式 */
+div {
+  font-family: 'Arial', sans-serif;  /* 设置字体 */
+  color: #333;  /* 设置文本颜色 */
+  margin: 0;
+  padding: 0;
+}
+
+/* Monaco 编辑器容器的样式 */
 .monaco-editor {
   width: 100%;
-  height: 300px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  height: 300px;  /* 高度可以根据需要调整 */
+  border: 1px solid #ddd;  /* 更加柔和的边框 */
+  border-radius: 8px;  /* 圆角边框 */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);  /* 阴影效果 */
   margin-bottom: 20px;
 }
+
+/* 原内容和对比内容的标题样式 */
+div > div {
+  font-size: 16px;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: #444;  /* 深灰色 */
+}
+
+/* 提交按钮样式 */
 button {
-  margin-top: 10px;
+  background-color: #4CAF50;  /* 绿色背景 */
+  color: white;  /* 白色文字 */
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 20px; /* 顶部间距 */
+  display: block;  /* 将按钮设为块级元素 */
+  margin-left: auto;  /* 左边距自动 */
+  margin-right: auto;  /* 右边距自动 */
+}
+
+/* 提交按钮鼠标悬停效果 */
+button:hover {
+  background-color: #45a049;
+}
+
+/* 表单容器样式 */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;  /* 为表单元素之间增加间距 */
+}
+
+/* 页面整体布局 */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;  /* 浅灰色背景 */
+  border-radius: 8px;  /* 圆角 */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);  /* 页面容器阴影 */
+}
+
+/* 响应式布局：使编辑器容器和按钮在小屏幕设备上也能适应 */
+@media (max-width: 768px) {
+  .monaco-editor {
+    height: 200px;  /* 在小屏幕上调整编辑器的高度 */
+  }
+
+  button {
+    width: 100%;  /* 按钮宽度适应屏幕 */
+    padding: 12px 0;
+  }
 }
 </style>
 
