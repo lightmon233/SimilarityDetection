@@ -51,9 +51,9 @@ public class TongyiController {
             String chatResponse = chatModel.call("请你比较这两段代码的仅限于文字相似度，并返回给我一个0到1的浮点数来表示相似度，除了这个浮点数以外不要返回其他任何内容，比如这两段代码的相似度为0.56，也不要给我推荐算法，也不要重复我的输入，直接返回结果：" + text1 + " 和 " + text2);
 
             // 解析返回的相似度值
-            double similarity = parseSimilarity(chatResponse);
+            // double similarity = parseSimilarity(chatResponse);
 
-            data = JsonData.ok(similarity);
+            data = JsonData.ok(chatResponse);
         } catch (Exception ex) {
             data = JsonData.error(200, ex.getMessage());
         }

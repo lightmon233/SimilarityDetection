@@ -76,14 +76,14 @@ export default {
     },
     compareText() {
 
-      axios.post('http://localhost:3000/dashchat', {
+      axios.post('http://localhost:3000/chat', {
         text1: this.inputValue,
         text2: this.inputValue2
       })
           .then(response => {
             if (response.data.error === 0) {
-              this.chatResponse = response.data.data.output.choices[0].message.content;
-
+              this.chatResponse = response.data.data;
+              
 
 
             } else {
