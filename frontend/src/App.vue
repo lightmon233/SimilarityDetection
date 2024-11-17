@@ -1,31 +1,38 @@
 <template>
   <div class="container">
+    <!-- Title -->
+    <h1 class="title">SimilarityDetection</h1>
+
     <div>
-      <div>原内容</div>
+      <div>原内容：</div>
       <div>
         <select v-model="selectedLanguage1" @change="updateLanguage('editor1')">
           <option value="javascript">JavaScript</option>
           <option value="python">Python</option>
           <option value="java">Java</option>
+          <option value="cpp">Cpp</option>
           <option value="html">HTML</option>
           <!-- 可根据需要添加更多语言 -->
         </select>
       </div>
       <div ref="editor1" class="monaco-editor"></div> <!-- Monaco 编辑器的容器 -->
     </div>
+    
     <div>
-      <div>对比内容</div>
+      <div>对比内容：</div>
       <div>
         <select v-model="selectedLanguage2" @change="updateLanguage('editor2')">
           <option value="javascript">JavaScript</option>
           <option value="python">Python</option>
           <option value="java">Java</option>
+          <option value="cpp">Cpp</option>
           <option value="html">HTML</option>
           <!-- 可根据需要添加更多语言 -->
         </select>
       </div>
       <div ref="editor2" class="monaco-editor"></div> <!-- 另一个 Monaco 编辑器 -->
     </div>
+    
     <div>
       <label for="method">选择比较算法：</label>
       <select v-model="method" id="method">
@@ -33,6 +40,7 @@
         <option value="tongyi">Tongyi</option>
       </select>
     </div>
+    
     <button @click="submitText">比较相似度</button>
   </div>
 </template>
@@ -47,7 +55,9 @@ export default {
       inputValue: '',
       inputValue2: '',
       compareResponse: '',  // 添加一个用于存储相似度结果的变量
-      method: 'levenshtein'
+      method: 'levenshtein',
+      selectedLanguage1: 'javascript',
+      selectedLanguage2: 'javascript'
     };
   },
   mounted() {
@@ -104,114 +114,85 @@ export default {
 </script>
 
 <style scoped>
-/* 容器整体样式 */
-div {
-  font-family: 'Arial', sans-serif; /* 设置字体 */
-  color: #333; /* 设置文本颜色 */
+html, body {
+  height: 100%;
   margin: 0;
-  padding: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+  background-color: #f4f7fa;
 }
 
-/* Monaco 编辑器容器的样式 */
-.monaco-editor {
-  width: 100%;
-  height: 300px; /* 高度可以根据需要调整 */
-  border: 1px solid #ddd; /* 更加柔和的边框 */
-  border-radius: 8px; /* 圆角边框 */
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 阴影效果 */
-  margin-bottom: 20px;
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Ensure full viewport height */
 }
 
-/* 原内容和对比内容的标题样式 */
-div > div {
-  font-size: 16px;
-  font-weight: bold;
-  margin-bottom: 8px;
-  color: #444; /* 深灰色 */
-}
-
-/* 提交按钮样式 */
-button {
-  background-color: #4CAF50; /* 绿色背景 */
-  color: white; /* 白色文字 */
-  font-size: 16px;
-  font-weight: bold;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-  margin-top: 20px; /* 顶部间距 */
-  display: block; /* 将按钮设为块级元素 */
-  margin-left: auto; /* 左边距自动 */
-  margin-right: auto; /* 右边距自动 */
-}
-
-/* 提交按钮鼠标悬停效果 */
-button:hover {
-  background-color: #45a049;
-}
-
-/* 表单容器样式 */
-form {
+.container {
   display: flex;
   flex-direction: column;
-  gap: 20px; /* 为表单元素之间增加间距 */
-}
-
-/* 页面整体布局 */
-.container {
+  align-items: center;
+  justify-content: center;
+  width: 80%;
   max-width: 1000px;
+  padding: 20px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  /* This will ensure the container stays centered within its parent */
   margin: 0 auto;
-  padding: 20px;
-  background-color: #f9f9f9; /* 浅灰色背景 */
-  border-radius: 8px; /* 圆角 */
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* 页面容器阴影 */
 }
 
-/* 结果显示区域的样式 */
-.result-container {
-  margin-top: 20px;
-  padding: 20px;
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+div {
+  margin-bottom: 20px;
+  width: 100%;
 }
 
-.result-title {
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 10px;
+select {
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  margin-right: 10px;
+}
+
+button {
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+label {
+  font-size: 16px;
   color: #333;
 }
 
-.result-value {
-  font-size: 16px;
-  color: #444;
+.monaco-editor {
+  width: 100%;
+  height: 400px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  text-align: left; /* Prevent code from being centered inside the editor */
 }
 
-/* 响应式布局：使编辑器容器和按钮在小屏幕设备上也能适应 */
-@media (max-width: 768px) {
-  .monaco-editor {
-    height: 200px; /* 在小屏幕上调整编辑器的高度 */
-  }
+.monaco-editor:focus {
+  border-color: #007bff;
+}
 
-  button {
-    width: 100%; /* 按钮宽度适应屏幕 */
-    padding: 12px 0;
-  }
-
-  .result-container {
-    padding: 15px;
-  }
-
-  .result-title {
-    font-size: 16px;
-  }
-
-  .result-value {
-    font-size: 14px;
-  }
+select, button {
+  margin-top: 10px;
 }
 </style>
