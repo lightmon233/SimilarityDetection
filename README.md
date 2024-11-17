@@ -66,20 +66,12 @@ To deploy the web application locally, follow these steps:
 
 To use the Python frontend script, follow the steps below:
 
-1. **Ensure Python Dependencies Are Installed**:
-
-    Install necessary Python packages using pip:
-
-    ```bash
-    pip install -r requirements.txt
-    ```
-
-2. **Run the Python Script**:
+1. **Run the Python Script**:
 
     Execute the script to start the code similarity detection process:
 
     ```bash
-    python frontend_script.py
+    python core.py "/path/to/your_file1" "/path/to/your_file2" --protocol=http --method=tongyi
     ```
 
 ---
