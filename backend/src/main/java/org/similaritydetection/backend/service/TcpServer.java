@@ -1,5 +1,8 @@
 package org.similaritydetection.backend.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.similaritydetection.backend.utils.CalculateSimilarity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Async;
@@ -10,12 +13,15 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Objects;
 
-import static org.similaritydetection.backend.utils.CalculateSimilarity.calculateSimilarity;
+import org.similaritydetection.backend.utils.CalculateSimilarity;
 import static org.similaritydetection.backend.utils.JsonParser.jsonToList;
 
 @Component
 public class TcpServer {
+    @Autowired
+    private CalculateSimilarity calculateSimilarity;
 
     private static final int PORT = 3001;
 
@@ -49,8 +55,9 @@ public class TcpServer {
             // 响应客户端
             String file1 = jsonToList(receivedData.toString()).get(0);
             String file2 = jsonToList(receivedData.toString()).get(1);
-            Double response = calculateSimilarity(file1, file2);
-            out.write(response.toString().getBytes());
+            String method = jsonToList(receivedData.toString()).get(2);
+            String response = calculateSimilarity.calculateSimilarity(file1, file2, method);
+            out.write(response.getBytes());
 
         } catch (Exception e) {
             e.printStackTrace();

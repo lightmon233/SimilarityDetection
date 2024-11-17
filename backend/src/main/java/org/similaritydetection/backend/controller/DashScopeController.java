@@ -14,7 +14,7 @@ import com.alibaba.dashscope.audio.ttsv2.enrollment.VoiceEnrollmentService;
 import com.alibaba.dashscope.common.Message;
 import com.alibaba.dashscope.common.MultiModalMessage;
 import com.alibaba.dashscope.common.Role;
-import org.similaritydetection.backend.po.JsonData;
+import org.similaritydetection.backend.utils.JsonData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;

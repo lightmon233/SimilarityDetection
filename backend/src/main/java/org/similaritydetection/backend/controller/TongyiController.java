@@ -9,13 +9,12 @@ import com.alibaba.cloud.ai.tongyi.audio.transcription.api.AudioTranscriptionPro
 import com.alibaba.cloud.ai.tongyi.audio.transcription.api.AudioTranscriptionResponse;
 import com.alibaba.cloud.ai.tongyi.chat.TongYiChatModel;
 import com.alibaba.cloud.ai.tongyi.image.TongYiImagesModel;
-import com.alibaba.dashscope.audio.asr.transcription.Transcription;
 import com.alibaba.dashscope.audio.tts.SpeechSynthesisAudioFormat;
 import com.alibaba.dashscope.utils.JsonUtils;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import org.similaritydetection.backend.po.JsonData;
+import org.similaritydetection.backend.utils.JsonData;
 import jakarta.annotation.Resource;
 import org.springframework.ai.image.ImageOptionsBuilder;
 import org.springframework.ai.image.ImagePrompt;

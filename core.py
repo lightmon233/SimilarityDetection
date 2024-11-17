@@ -54,7 +54,8 @@ def send_data_udp(host, port, data):
 
 
 def send_data_http(host, port, data):
-    url = f"http://{host}:{port}/submitText"
+    route = "submitText"
+    url = f"http://{host}:{port}/{route}"
     headers = {'Content-Type': 'application/json'}
     try:
         response = requests.post(url, json=data, headers=headers)
@@ -67,13 +68,13 @@ def send_data_http(host, port, data):
         print(f"http请求失败: {e}")
 
 
-def op(str1, str2, protocol):
+def op(str1, str2, protocol, method):
     if protocol == 'tcp':
-        send_data_tcp(host, tcp_port, (str1, str2))
+        send_data_tcp(host, tcp_port, (str1, str2, method))
     elif protocol == 'udp':
-        send_data_udp(host, udp_port, (str1, str2))
+        send_data_udp(host, udp_port, (str1, str2, method))
     elif protocol == 'http':
-        send_data_http(host, http_port, {'text': str1, 'text2': str2})
+        send_data_http(host, http_port, {'text': str1, 'text2': str2, 'method': method})
     else:
         print("不支持的协议")
 
@@ -94,10 +95,11 @@ def main():
     parser.add_argument("file_path_1", type=str, help="第一个文件路径")
     parser.add_argument("file_path_2", type=str, help="第二个文件路径")
     parser.add_argument("--protocol", type=str, help="通信协议")
+    parser.add_argument("--method", type=str, help="请求方法")
     args = parser.parse_args()
     file_1 = file_to_string(args.file_path_1)
     file_2 = file_to_string(args.file_path_2)
-    op(file_1, file_2, args.protocol)
+    op(file_1, file_2, args.protocol, args.method)
 
 
 if __name__ == "__main__":

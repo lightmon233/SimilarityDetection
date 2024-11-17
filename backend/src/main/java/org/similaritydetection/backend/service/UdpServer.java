@@ -1,5 +1,7 @@
 package org.similaritydetection.backend.service;
 
+import org.similaritydetection.backend.utils.CalculateSimilarity;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Async;
@@ -10,10 +12,12 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 import static org.similaritydetection.backend.utils.JsonParser.jsonToList;
-import static org.similaritydetection.backend.utils.CalculateSimilarity.calculateSimilarity;
+import org.similaritydetection.backend.utils.CalculateSimilarity;
 
 @Component
 public class UdpServer{
+    @Autowired
+    private CalculateSimilarity calculateSimilarity;
 
     private static final int PORT = 3002;
     private static final int BUFFER_SIZE = 1024;
@@ -38,7 +42,8 @@ public class UdpServer{
                 // 响应客户端
                 String file1 = jsonToList(receivedData).get(0);
                 String file2 = jsonToList(receivedData).get(1);
-                String responseData = String.valueOf(calculateSimilarity(file1, file2));
+                String method = jsonToList(receivedData).get(2);
+                String responseData = String.valueOf(calculateSimilarity.calculateSimilarity(file1, file2, method));
                 byte[] responseBuffer = responseData.getBytes();
                 InetAddress clientAddress = receivePacket.getAddress();
                 int clientPort = receivePacket.getPort();
