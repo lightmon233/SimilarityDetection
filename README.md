@@ -28,6 +28,8 @@ To deploy the web application locally, follow these steps:
 
     The tongyi method used in the project is powered by [通义千问](https://tongyi.aliyun.com/), you should get an API key from their website first.
 
+    After that, you can change the `ALI_API_KEY` to your API key in `backend/src/main/resources/application.properties` or use environment variable to implement it accordingly.
+
 1. **Install Frontend Dependencies**:
 
     Run the following command in the frontend directory to install necessary dependencies:
