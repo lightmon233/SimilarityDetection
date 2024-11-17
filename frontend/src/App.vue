@@ -2,18 +2,38 @@
   <div class="container">
     <div>
       <div>原内容</div>
+      <div>
+        <select v-model="selectedLanguage1" @change="updateLanguage('editor1')">
+          <option value="javascript">JavaScript</option>
+          <option value="python">Python</option>
+          <option value="java">Java</option>
+          <option value="html">HTML</option>
+          <!-- 可根据需要添加更多语言 -->
+        </select>
+      </div>
       <div ref="editor1" class="monaco-editor"></div> <!-- Monaco 编辑器的容器 -->
     </div>
     <div>
       <div>对比内容</div>
+      <div>
+        <select v-model="selectedLanguage2" @change="updateLanguage('editor2')">
+          <option value="javascript">JavaScript</option>
+          <option value="python">Python</option>
+          <option value="java">Java</option>
+          <option value="html">HTML</option>
+          <!-- 可根据需要添加更多语言 -->
+        </select>
+      </div>
       <div ref="editor2" class="monaco-editor"></div> <!-- 另一个 Monaco 编辑器 -->
     </div>
-    <button @click="submitText">算法比较相似度</button>
-    <button @click="compareText">AI:qwen比较相似度</button>
-    <div v-if="chatResponse" class="result-container">
-      <div class="result-title">相似度结果</div>
-      <div class="result-value">{{ chatResponse }}</div>
+    <div>
+      <label for="method">选择比较算法：</label>
+      <select v-model="method" id="method">
+        <option value="levenshtein">Levenshtein</option>
+        <option value="tongyi">Tongyi</option>
+      </select>
     </div>
+    <button @click="submitText">比较相似度</button>
   </div>
 </template>
 
@@ -21,20 +41,20 @@
 import axios from 'axios';
 import * as monaco from 'monaco-editor';
 
-
 export default {
   data() {
     return {
       inputValue: '',
       inputValue2: '',
-      chatResponse: ''  // 添加一个用于存储相似度结果的变量
+      compareResponse: '',  // 添加一个用于存储相似度结果的变量
+      method: 'levenshtein'
     };
   },
   mounted() {
     // 初始化 Monaco Editor 编辑器
     this.editor1 = monaco.editor.create(this.$refs.editor1, {
       value: this.inputValue,
-      language: 'javascript',  // 可以根据需要更改语言模式，例如 'python', 'html' 等
+      language: this.selectedLanguage1,  // 可以根据需要更改语言模式，例如 'python', 'html' 等
       theme: 'vs-light',       // 选择主题，'vs' 是浅色主题，'vs-dark' 是深色主题
       lineNumbers: 'on',      // 显示行号
       automaticLayout: true   // 自动调整布局
@@ -42,7 +62,7 @@ export default {
 
     this.editor2 = monaco.editor.create(this.$refs.editor2, {
       value: this.inputValue2,
-      language: 'javascript', // 同上
+      language: this.selectedLanguage2, // 同上
       theme: 'vs-light',      // 同上
       lineNumbers: 'on',      // 同上
       automaticLayout: true   // 同上
@@ -57,46 +77,28 @@ export default {
     });
   },
   methods: {
+    updateLanguage(editor) {
+      if (editor === 'editor1') {
+        this.editor1.getModel().setLanguage(this.selectedLanguage1);  // 更新第一个编辑器的语言
+      } else if (editor === 'editor2') {
+        this.editor2.getModel().setLanguage(this.selectedLanguage2);  // 更新第二个编辑器的语言
+      }
+    },
     submitText() {
       // 提交编辑器内容
       axios.post('http://localhost:3000/submitText', {
         text: this.inputValue,
-        text2: this.inputValue2
+        text2: this.inputValue2,
+        method: this.method
       })
-          .then(response => {
-            console.log('提交成功', response);
-            alert('代码相似度为：' + response.data);
-            // 清空内容
-
-
-          })
-          .catch(error => {
-            console.error('提交失败', error);
-          });
+      .then(response => {
+        console.log('提交成功', response);
+        alert('代码相似度为：' + response.data);
+      })
+      .catch(error => {
+        console.error('提交失败', error);
+      });
     },
-    compareText() {
-
-      axios.post('http://localhost:3000/chat', {
-        text1: this.inputValue,
-        text2: this.inputValue2
-      })
-          .then(response => {
-            if (response.data.error === 0) {
-              this.chatResponse = response.data.data;
-              
-
-
-            } else {
-              this.chatResponse = `Error: ${response.data.message}`;
-              alert('相似度比较失败：' + this.chatResponse);
-            }
-          })
-          .catch(error => {
-            console.error('比较失败', error);
-            this.chatResponse = `Error: ${error.message}`;
-            alert('比较失败：' + this.chatResponse);
-          });
-    }
   }
 };
 </script>

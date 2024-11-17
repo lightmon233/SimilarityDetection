@@ -27,6 +27,6 @@ public class TongyiService {
         } catch (Exception ex) {
             data = JsonData.error(200, ex.getMessage());
         }
-        return data.toString();
+        return data.getData().toString();
     }
 }
