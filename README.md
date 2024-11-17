@@ -24,6 +24,10 @@ A simple **code similarity detection tool** that allows you to compare and analy
 
 To deploy the web application locally, follow these steps:
 
+0. **Get a Tongyi API key**:
+
+    The tongyi method used in the project is powered by [通义千问](https://tongyi.aliyun.com/), you should get an API key from their website first.
+
 1. **Install Frontend Dependencies**:
 
     Run the following command in the frontend directory to install necessary dependencies:
