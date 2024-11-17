@@ -73,6 +73,13 @@ To use the Python frontend script, follow the steps below:
     ```bash
     python core.py "/path/to/your_file1" "/path/to/your_file2" --protocol=http --method=tongyi
     ```
+2. **For more information**:
+    
+    Execute the script with `--help` parameter to show help information:
+
+    ```bash
+    python core.py --help
+    ```
 
 ---
 
