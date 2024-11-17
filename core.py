@@ -91,11 +91,11 @@ def file_to_string(file_path):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="代码相似度检测工具")
-    parser.add_argument("file_path_1", type=str, help="第一个文件路径")
-    parser.add_argument("file_path_2", type=str, help="第二个文件路径")
-    parser.add_argument("--protocol", type=str, default="http", help="通信协议")
-    parser.add_argument("--method", type=str, default="levenshtein", help="请求方法")
+    parser = argparse.ArgumentParser(description="SimilarityDetection")
+    parser.add_argument("file_path_1", type=str, help="path to the first code file")
+    parser.add_argument("file_path_2", type=str, help="path to the second code file")
+    parser.add_argument("--protocol", type=str, default="http", help="choose the transfer protocol: http, tcp or udp")
+    parser.add_argument("--method", type=str, default="levenshtein", help="choose the compare algorithm: levenshtein or tongyi")
     args = parser.parse_args()
     file_1 = file_to_string(args.file_path_1)
     file_2 = file_to_string(args.file_path_2)
